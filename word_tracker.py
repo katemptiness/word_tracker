@@ -63,6 +63,7 @@ def pick_file_via_osascript() -> Optional[str]:
             ["osascript", "-e", _OSASCRIPT_PICK],
             capture_output=True,
             text=True,
+            encoding="utf-8",
             timeout=600,
         )
     except (FileNotFoundError, subprocess.TimeoutExpired):
