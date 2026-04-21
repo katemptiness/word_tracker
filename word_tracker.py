@@ -16,8 +16,20 @@ from pathlib import Path
 from typing import Optional
 
 import rumps
+from AppKit import NSApplication, NSApplicationActivationPolicyAccessory
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
+
+
+def _activate_app_for_modals() -> None:
+    """Register this process as a regular GUI app so modal windows get keyboard focus.
+
+    Without this, rumps.Window pops up but doesn't receive keystrokes because
+    the Python process has no activation policy set before the first window opens.
+    """
+    ns_app = NSApplication.sharedApplication()
+    ns_app.setActivationPolicy_(NSApplicationActivationPolicyAccessory)
+    ns_app.activateIgnoringOtherApps_(True)
 
 from word_tracker_core import (
     DEFAULT_CONFIG_PATH,
@@ -275,6 +287,8 @@ class WordTrackerApp(rumps.App):
 
 
 def main() -> None:
+    _activate_app_for_modals()
+
     cfg = load_config(DEFAULT_CONFIG_PATH)
     initial_file = cfg.get("file_path") or ""
     initial_threshold = cfg.get("threshold")

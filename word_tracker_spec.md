@@ -41,10 +41,10 @@ Four states:
 |---|---|
 | Idle, before any file-save event is seen | `📝 0/<threshold>` |
 | Active, below threshold | `📝 <written>/<threshold>`, e.g. `📝 427/1000` |
-| Goal reached | `📝 <current_words> 🎉`, e.g. `📝 8058 🎉` |
+| Goal reached | `📝 <session_delta> 🎉`, e.g. `📝 1042 🎉` |
 | Error (file missing/unreadable) | `📝 ⚠️` |
 
-Note the difference between the "below threshold" and "goal reached" titles: before the goal, the left number is the **session delta**; after the goal, it is the **total word count** of the document.
+Both the "below threshold" and "goal reached" titles show the **session delta** — the number of words written since the app was started. Only the format around the number changes (ratio vs. 🎉).
 
 ### Dropdown menu
 

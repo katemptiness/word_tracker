@@ -109,7 +109,7 @@ class SessionState:
         if self.error:
             return "📝 ⚠️"
         if self.goal_reached:
-            return f"📝 {self.current} 🎉"
+            return f"📝 {self.delta} 🎉"
         return f"📝 {self.delta}/{self.threshold}"
 
     def dropdown_lines(self, filename: str) -> list[str]:

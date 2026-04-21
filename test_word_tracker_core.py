@@ -195,7 +195,7 @@ class TestSessionState(unittest.TestCase):
         s = SessionState(baseline=100, threshold=500, now_hhmm="10:00")
         s.update(current=600, now_hhmm="11:00")
         self.assertTrue(s.goal_reached)
-        self.assertEqual(s.title(), "📝 600 🎉")
+        self.assertEqual(s.title(), "📝 500 🎉")
 
     def test_threshold_crossing_dropdown(self):
         s = SessionState(baseline=100, threshold=500, now_hhmm="10:00")
@@ -212,7 +212,7 @@ class TestSessionState(unittest.TestCase):
         self.assertTrue(s.goal_reached)
         s.update(current=400, now_hhmm="12:00")  # delta back down to 300
         self.assertTrue(s.goal_reached)
-        self.assertEqual(s.title(), "📝 400 🎉")
+        self.assertEqual(s.title(), "📝 300 🎉")
 
     def test_error_state(self):
         s = SessionState(baseline=100, threshold=500, now_hhmm="10:00")
@@ -235,7 +235,7 @@ class TestSessionState(unittest.TestCase):
         self.assertEqual(s.title(), "📝 ⚠️")
         s.update(current=720, now_hhmm="11:05")
         self.assertTrue(s.goal_reached)
-        self.assertEqual(s.title(), "📝 720 🎉")
+        self.assertEqual(s.title(), "📝 620 🎉")
 
     def test_timestamp_updates_on_each_recount(self):
         s = SessionState(baseline=100, threshold=500, now_hhmm="10:00")
