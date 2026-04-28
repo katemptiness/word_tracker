@@ -38,11 +38,14 @@ On launch, pick the markdown file to track and enter a daily word goal. The app 
 To get a double-clickable `WordTracker.app` (no terminal needed to launch):
 
 ```bash
+source .venv/bin/activate       # ⚠️ IMPORTANT: build from the venv, not base Python
 pip install py2app
 python setup.py py2app          # release build → dist/WordTracker.app
 # or, for fast local iteration:
 python setup.py py2app -A       # alias build (runs from source, not portable)
 ```
+
+**Always build from the venv.** If you run `python setup.py py2app` from a base Anaconda/Homebrew Python, py2app will see every package installed in that environment (numpy, docutils, etc.) and try to bundle them all — the build will appear to hang for many minutes on irrelevant recipes and may not finish. The venv only contains `rumps`, `watchdog`, and `py2app`, which is what you want.
 
 Copy `dist/WordTracker.app` anywhere you like (e.g. `/Applications` or `~/Applications`) and double-click to launch. The bundle is configured with `LSUIElement=True`, so it lives in the menu bar only — no Dock icon, no app menu.
 
