@@ -18,8 +18,11 @@ DEFAULT_CONFIG_PATH = (
 
 
 def count_words(text: str) -> int:
-    """Whitespace-split word count, per spec."""
-    return len(text.split())
+    """Whitespace-split count of tokens that contain at least one alphanumeric
+    character. Standalone punctuation like em dashes, en dashes, and ellipses
+    is excluded; numbers, contractions, and hyphenated words still count.
+    """
+    return sum(1 for token in text.split() if any(c.isalnum() for c in token))
 
 
 def format_hhmm(dt: datetime) -> str:

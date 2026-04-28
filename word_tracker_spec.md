@@ -90,9 +90,9 @@ If the file becomes accessible again (e.g., it reappeared after an atomic save),
 ### Word counting
 
 - Read the file as UTF-8.
-- Use Python's `str.split()` with no arguments (splits on any whitespace, collapses consecutive whitespace).
-- Word count = length of the resulting list.
-- No markdown preprocessing. Headings, emphasis markers, link syntax, etc., are counted as-is.
+- Split on whitespace using Python's `str.split()` (collapses consecutive whitespace).
+- A token counts as a word only if it contains at least one alphanumeric character (`any(c.isalnum() for c in token)`). This excludes standalone punctuation tokens like em dashes (`—`), en dashes (`–`), double hyphens (`--`), and ellipses (`...`), but keeps numbers (`42`), contractions (`don't`), hyphenated words (`well-known`), and tokens with attached punctuation (`hello,`).
+- No markdown preprocessing beyond the alphanumeric filter. Standalone markdown syntax like a `#` on its own (no letters/digits) is excluded; emphasis markers attached to a word like `**world**` still count because the word inside has letters.
 
 ### Baseline
 

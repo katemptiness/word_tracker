@@ -34,12 +34,50 @@ class TestCountWords(unittest.TestCase):
     def test_unicode(self):
         self.assertEqual(count_words("привет мир 你好"), 3)
 
-    def test_markdown_counted_naively(self):
-        # "# Hello **world**" → three whitespace-separated tokens
-        self.assertEqual(count_words("# Hello **world**"), 3)
+    def test_markdown_pure_punctuation_excluded(self):
+        # "#" is pure punctuation and is excluded; "**world**" has letters and counts.
+        self.assertEqual(count_words("# Hello **world**"), 2)
 
     def test_newlines_only(self):
         self.assertEqual(count_words("\n\n\n"), 0)
+
+    def test_em_dash_standalone_excluded(self):
+        self.assertEqual(count_words("hello — world"), 2)
+
+    def test_multiple_em_dashes_excluded(self):
+        self.assertEqual(count_words("— hello — world —"), 2)
+
+    def test_en_dash_standalone_excluded(self):
+        self.assertEqual(count_words("hello – world"), 2)
+
+    def test_double_hyphen_standalone_excluded(self):
+        self.assertEqual(count_words("hello -- world"), 2)
+
+    def test_ellipsis_standalone_excluded(self):
+        self.assertEqual(count_words("wait ... what"), 2)
+
+    def test_ellipsis_attached_counts(self):
+        self.assertEqual(count_words("wait..."), 1)
+
+    def test_pure_punctuation_tokens_only(self):
+        self.assertEqual(count_words("— – ... !! ?"), 0)
+
+    def test_numbers_count(self):
+        self.assertEqual(count_words("I am 42"), 3)
+
+    def test_en_dash_inside_token_counts(self):
+        # "1900–1950" is a single token with digits, counts as one word.
+        self.assertEqual(count_words("1900–1950"), 1)
+
+    def test_contractions_count(self):
+        self.assertEqual(count_words("don't stop"), 2)
+
+    def test_hyphenated_word_counts_as_one(self):
+        self.assertEqual(count_words("well-known fact"), 2)
+
+    def test_dialogue_with_em_dash(self):
+        # Realistic dialogue case: bare em dashes don't inflate the count.
+        self.assertEqual(count_words('"Wait — stop," she said.'), 4)
 
 
 class TestFormatHHMM(unittest.TestCase):
